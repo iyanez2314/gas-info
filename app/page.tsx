@@ -6,15 +6,44 @@ import Form from "../components/Form";
 export interface State {
   carMake: string;
   carModel: string;
-  city: string;
+  year: string;
+}
+
+export interface GasCost {
+  averageCost: {
+    gallonSize: string;
+    midCost: string;
+    premiumCost: string;
+    regularCost: string;
+  };
+}
+
+export interface CardProps extends GasCost {
+  carMake: string;
+  carModel: string;
+  vehicleImage: string;
 }
 
 export default function Home() {
   const [formData, setFormData] = useState<State>({
     carMake: "",
     carModel: "",
-    city: "",
+    year: "",
   });
+
+  const [apiData, setApiData] = useState<CardProps>({
+    carMake: "",
+    carModel: "",
+    vehicleImage: "",
+    averageCost: {
+      gallonSize: "",
+      midCost: "",
+      premiumCost: "",
+      regularCost: "",
+    },
+  });
+
+  const [loading, setLoading] = useState<boolean>(true);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -22,7 +51,6 @@ export default function Home() {
   };
 
   const handleSubmit = async () => {
-    // Here I will submit this information to the backend
     const response = await fetch("/api/gasCost", {
       method: "POST",
       headers: {
@@ -30,13 +58,30 @@ export default function Home() {
       },
       body: JSON.stringify(formData),
     });
-    const data = await response.json();
-    console.log(formData);
+    setLoading(true);
+    const data: CardProps = await response.json();
+    setTimeout(() => {
+      setApiData(data);
+      setLoading(false);
+    }, 3000);
   };
+
   return (
-    <main className="flex min-h-screen items-center justify-evenly md:flex-row flex-col  p-24">
-      <Form handleInputChange={handleInputChange} handleSubmit={handleSubmit} />
-      <CarCard />
+    <main className="flex min-h-screen items-center justify-evenly md:flex-row flex-col p-24">
+      <div className="flex flex-col space-y-3 sm:flex-row sm:space-x-4 p-4">
+        <Form
+          handleInputChange={handleInputChange}
+          handleSubmit={handleSubmit}
+        />
+        {apiData.carMake === "" ? null : loading ? (
+          <div
+            className="w-12 h-12 rounded-full animate-spin
+          border border-solid border-yellow-500 border-t-transparent"
+          ></div>
+        ) : (
+          <CarCard carData={apiData} />
+        )}
+      </div>
     </main>
   );
 }

@@ -8,7 +8,7 @@ interface Props {
 
 export default function Form({ handleInputChange, handleSubmit }: Props) {
   return (
-    <div className="text-white text-2xl font-light flex flex-col gap-4 p-6 md:w-1/2 lg:w-1/4 xl:w-1/4 ">
+    <div className="text-white text-2xl font-light flex flex-col gap-4 p-6 md:w-full lg:w-full xl:w-full">
       <div>
         <h1 className="font-semibold">Enter your Car Information</h1>
         <p className="text-sm font-md">
@@ -38,13 +38,13 @@ export default function Form({ handleInputChange, handleSubmit }: Props) {
           />
         </div>
         <div className="flex flex-col">
-          <label className="font-medium text-sm">City</label>
+          <label className="font-medium text-sm">Year</label>
           <input
             onChange={handleInputChange}
             className="border-2 text-black border-gray-300 rounded-md p-1 px-3"
             type="text"
-            placeholder="Enter your city"
-            name="city"
+            placeholder="Enter your vehicle year"
+            name="year"
           />
         </div>
         <button
