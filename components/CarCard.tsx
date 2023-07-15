@@ -3,7 +3,7 @@ import Image from "next/image";
 import car from "../public/2022-Hennessey-VelociRaptor-600-1.jpg";
 import { GasCost } from "../app/page";
 
-export default function CarCard({ carData }: GasCost) {
+export default function CarCard({ carData }: any) {
   console.log(carData);
 
   return (
