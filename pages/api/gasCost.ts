@@ -50,13 +50,13 @@ async function calculateGasAverage(cylinders: number, city: string) {
 
   if (cylinders === 4) {
     minGallons = 10;
-    maxGallons = 12;
+    maxGallons = 16;
   } else if (cylinders === 6) {
-    minGallons = 15;
-    maxGallons = 17;
+    minGallons = 17;
+    maxGallons = 20;
   } else if (cylinders === 8) {
-    minGallons = 20;
-    maxGallons = 25;
+    minGallons = 21;
+    maxGallons = 26;
   } else {
     return "Invalid number of cylinders";
   }

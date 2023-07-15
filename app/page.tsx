@@ -43,7 +43,7 @@ export default function Home() {
     },
   });
 
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -72,15 +72,9 @@ export default function Home() {
         <Form
           handleInputChange={handleInputChange}
           handleSubmit={handleSubmit}
+          isLoading={loading}
         />
-        {apiData.carMake === "" ? null : loading ? (
-          <div
-            className="w-12 h-12 rounded-full animate-spin
-          border border-solid border-yellow-500 border-t-transparent"
-          ></div>
-        ) : (
-          <CarCard carData={apiData} />
-        )}
+        {apiData.carMake === "" ? null : <CarCard carData={apiData} />}
       </div>
     </main>
   );
