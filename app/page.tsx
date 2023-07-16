@@ -47,8 +47,6 @@ export default function Home() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    console.log(value.toLowerCase().trim());
-
     setFormData({ ...formData, [name]: value.trim() });
   };
 
