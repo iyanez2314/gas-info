@@ -29,7 +29,7 @@ export default function Form({
             onChange={handleInputChange}
             className="border-2 text-black border-gray-300 rounded-md p-1 px-3"
             type="text"
-            placeholder="Enter your car make"
+            placeholder="Enter your vehicle make"
             name="carMake"
           />
         </div>
@@ -39,7 +39,7 @@ export default function Form({
             onChange={handleInputChange}
             className="border-2 text-black border-gray-300 rounded-md p-1 px-3"
             type="text"
-            placeholder="Enter your car model"
+            placeholder="Enter your vehicle model"
             name="carModel"
           />
         </div>
