@@ -4,8 +4,6 @@ import car from "../public/2022-Hennessey-VelociRaptor-600-1.jpg";
 import { GasCost } from "../app/page";
 
 export default function CarCard({ carData }: any) {
-  console.log(carData);
-
   return (
     <div className="bg-[#363636] flex flex-col justify-center items-center p-3 rounded w-full">
       {carData.vehicle.averageCost.gallonSize === undefined ? (

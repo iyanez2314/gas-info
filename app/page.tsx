@@ -47,7 +47,9 @@ export default function Home() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    console.log(value.toLowerCase().trim());
+
+    setFormData({ ...formData, [name]: value.toLowerCase().trim() });
   };
 
   const handleSubmit = async () => {
