@@ -68,7 +68,7 @@ export default function Home() {
 
   return (
     <main className="flex min-h-screen items-center justify-evenly md:flex-row flex-col p-24">
-      <div className="flex flex-col space-y-3 sm:flex-row sm:space-x-4 p-4">
+      <div className="flex items-center space-y-3 p-4 flex-col sm:space-x-4  sm:w-full sm:flex-col md:w-full  md:flex-col  lg:w-full lg:flex-row xl:w-3/4 xl:flex-row">
         <Form
           handleInputChange={handleInputChange}
           handleSubmit={handleSubmit}
