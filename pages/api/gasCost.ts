@@ -23,11 +23,8 @@ export default async function handler(
     try {
       const { carMake, carModel, year } = req.body;
       const cylinders = await getCylinders(carMake, carModel);
-      console.log(cylinders);
       const averageCost = await calculateGasAverage(cylinders, year);
-      console.log(averageCost);
       const vehicleImage = await getVehicleImage(carMake, carModel, year);
-      console.log(vehicleImage);
       const vehicle = {
         carMake,
         carModel,
