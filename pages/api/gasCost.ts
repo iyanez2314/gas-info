@@ -23,7 +23,7 @@ export default async function handler(
     try {
       const { carMake, carModel, year } = req.body;
       const cylinders = await getCylinders(carMake, carModel);
-      const averageCost = await calculateGasAverage(cylinders, year);
+      const averageCost = await calculateGasAverage(cylinders);
       const vehicleImage = await getVehicleImage(carMake, carModel, year);
       const vehicle = {
         carMake,
@@ -41,10 +41,16 @@ export default async function handler(
   }
 }
 
-async function calculateGasAverage(cylinders: number, city: string) {
-  //   const gasPrices = await getGasPrice(city);
-  //   console.log(gasPrices);
+async function calculateGasAverage(cylinders: number) {
+  const gasPrices = await getGasPrice();
+  const avgRegular = gasPrices.current_avg_regular;
+  const avgMid = gasPrices.current_avg_mid;
+  const avgPremium = gasPrices.current_avg_premium;
   const gallonSize = reuturnGallonSize(cylinders);
+
+  const avgRegularParsed = removeDollarSign(avgRegular);
+  const avgMidParsed = removeDollarSign(avgMid);
+  const avgPremiumParsed = removeDollarSign(avgPremium);
 
   let minGallons, maxGallons;
 
@@ -62,9 +68,9 @@ async function calculateGasAverage(cylinders: number, city: string) {
   }
 
   const avgGallons = (minGallons + maxGallons) / 2;
-  const regularCost = (avgGallons * 3.19).toFixed(2);
-  const midCost = (avgGallons * 3.59).toFixed(2);
-  const premiumCost = (avgGallons * 3.92).toFixed(2);
+  const regularCost = (avgGallons * avgRegularParsed).toFixed(2);
+  const midCost = (avgGallons * avgMidParsed).toFixed(2);
+  const premiumCost = (avgGallons * avgPremiumParsed).toFixed(2);
 
   return {
     gallonSize,
@@ -73,6 +79,10 @@ async function calculateGasAverage(cylinders: number, city: string) {
     premiumCost,
   };
 }
+
+const removeDollarSign = (price: string) => {
+  return parseFloat(price.slice(1));
+};
 
 function reuturnGallonSize(cylinders: number) {
   if (cylinders === 4) {
@@ -108,23 +118,23 @@ async function getCylinders(carMake: string, carModel: string) {
   }
 }
 
-// async function getGasPrice(city: string) {
-//   const url = "https://us-gas-prices.p.rapidapi.com/us/tx";
-//   const options = {
-//     method: "GET",
-//     headers: {
-//       "X-RapidAPI-Key": process.env.GAS_PRICE_API_KEY || "",
-//       "X-RapidAPI-Host": process.env.GAS_PRICE_HOST || "",
-//     },
-//   };
-//   try {
-//     const response = await fetch(url, options);
-//     const data = await response.json();
-//     return data;
-//   } catch (error: any) {
-//     console.log(error);
-//   }
-// }
+async function getGasPrice() {
+  const url = "https://us-gas-prices.p.rapidapi.com/us";
+  const options = {
+    method: "GET",
+    headers: {
+      "X-RapidAPI-Key": process.env.GAS_PRICE_API_KEY || "",
+      "X-RapidAPI-Host": process.env.GAS_PRICE_HOST || "",
+    },
+  };
+  try {
+    const response = await fetch(url, options);
+    const data = await response.json();
+    return data;
+  } catch (error: any) {
+    console.log(error);
+  }
+}
 
 async function getVehicleImage(
   carMake: string,
@@ -147,6 +157,7 @@ async function getVehicleImage(
     return vehicleImage;
   } catch (error) {
     console.log(error);
+
     return error;
   }
 }
