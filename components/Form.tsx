@@ -82,7 +82,7 @@ export default function Form({
               placeholder="Enter your vehicle year"
               name="year"
               required={true}
-              minLength={2}
+              minLength={4}
               maxLength={20}
             />
           </div>
