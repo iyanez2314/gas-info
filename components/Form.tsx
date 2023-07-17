@@ -17,9 +17,9 @@ export default function Form({
       <div>
         <h1 className="font-semibold">Enter your Car Information</h1>
         <p className="text-sm font-md w-full sm:w-1/2 text-ellipsis overflow-hidden">
-          Don'tcha hate asking the question 'I wonder how much gas I will need
-          this week'? Let us make it easy. (This is just a guess based on the
-          average gas prices)
+          Don'tcha hate asking the question "I wonder how much gas I will need
+          this week"? Let us make it easy. (These prices are based off the
+          average gas price in the United States)
         </p>
       </div>
       <div className="flex flex-col gap-5 w-full ">
