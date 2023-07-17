@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import React, { useState } from "react";
 import CarCard from "../components/CarCard";
 import Form from "../components/Form";
 
@@ -50,7 +50,8 @@ export default function Home() {
     setFormData({ ...formData, [name]: value.trim() });
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const response = await fetch("/api/gasCost", {
       method: "POST",
       headers: {

@@ -1,9 +1,10 @@
 "use client";
 import React, { useState } from "react";
+import { State } from "../app/page";
 
 interface Props {
   handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleSubmit: () => void;
+  handleSubmit: React.FormEventHandler<HTMLFormElement>;
   isLoading: boolean;
 }
 
@@ -12,6 +13,19 @@ export default function Form({
   handleSubmit,
   isLoading,
 }: Props) {
+  const [formData, setFormData] = useState<State>({
+    carMake: "",
+    carModel: "",
+    year: "",
+  });
+
+  const updateFormData = (name: string, value: string) => {
+    setFormData({ ...formData, [name]: value.trim() });
+  };
+
+  const allFieldsFilled =
+    formData.carMake !== "" && formData.carModel !== "" && formData.year !== "";
+
   return (
     <div className="text-white text-2xl font-light flex flex-col gap-4 p-6 md:w-full lg:w-full xl:w-full">
       <div>
@@ -26,48 +40,71 @@ export default function Form({
         <div className="flex flex-col">
           <label className="font-medium text-sm">Car Make</label>
           <input
-            onChange={handleInputChange}
+            onChange={(e) => {
+              handleInputChange(e);
+              updateFormData(e.target.name, e.target.value);
+            }}
             className="border-2 text-black border-gray-300 rounded-md p-1 px-3"
             type="text"
             placeholder="Enter your vehicle make"
             name="carMake"
+            required={true}
+            minLength={2}
+            maxLength={20}
           />
         </div>
-        <div className="flex flex-col">
-          <label className="font-medium text-sm">Car Model</label>
-          <input
-            onChange={handleInputChange}
-            className="border-2 text-black border-gray-300 rounded-md p-1 px-3"
-            type="text"
-            placeholder="Enter your vehicle model"
-            name="carModel"
-          />
-        </div>
-        <div className="flex flex-col">
-          <label className="font-medium text-sm">Year</label>
-          <input
-            onChange={handleInputChange}
-            className="border-2 text-black border-gray-300 rounded-md p-1 px-3"
-            type="text"
-            placeholder="Enter your vehicle year"
-            name="year"
-          />
-        </div>
-        <button
-          onClick={handleSubmit}
-          className="uppercase bg-[#1DB954] text-white p-3 rounded text-sm  hover:opacity-75 transition-all duration-300 ease-in-out"
-        >
-          {isLoading ? (
-            <span className="flex justify-center">
-              <div
-                className=" h-6 w-6 rounded-full animate-spin
+        <form className="space-y-4" onSubmit={handleSubmit}>
+          <div className="flex flex-col">
+            <label className="font-medium text-sm">Car Model</label>
+            <input
+              onChange={(e) => {
+                handleInputChange(e);
+                updateFormData(e.target.name, e.target.value);
+              }}
+              className="border-2 text-black border-gray-300 rounded-md p-1 px-3"
+              type="text"
+              placeholder="Enter your vehicle model"
+              name="carModel"
+              required={true}
+              minLength={2}
+              maxLength={20}
+            />
+          </div>
+          <div className="flex flex-col">
+            <label className="font-medium text-sm">Year</label>
+            <input
+              onChange={(e) => {
+                handleInputChange(e);
+                updateFormData(e.target.name, e.target.value);
+              }}
+              className="border-2 text-black border-gray-300 rounded-md p-1 px-3"
+              type="text"
+              placeholder="Enter your vehicle year"
+              name="year"
+              required={true}
+              minLength={2}
+              maxLength={20}
+            />
+          </div>
+          <button
+            className={`uppercase bg-[#1DB954] text-white p-3 rounded text-sm hover:opacity-75 transition-all duration-300 ease-in-out w-full ${
+              !allFieldsFilled && "cursor-not-allowed"
+            }`}
+            disabled={!allFieldsFilled}
+            type="submit"
+          >
+            {isLoading ? (
+              <span className="flex justify-center">
+                <div
+                  className=" h-6 w-6 rounded-full animate-spin
             border border-solid border-yellow-500 border-t-transparent"
-              ></div>
-            </span>
-          ) : (
-            "Enter"
-          )}
-        </button>
+                ></div>
+              </span>
+            ) : (
+              "Submit"
+            )}
+          </button>
+        </form>
       </div>
     </div>
   );
