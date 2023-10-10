@@ -1,14 +1,11 @@
 import React from "react";
-import Image from "next/image";
-import car from "../public/2022-Hennessey-VelociRaptor-600-1.jpg";
-import { GasCost } from "../app/page";
 
 export default function CarCard({ carData }: any) {
   return (
     <div className="bg-[#363636] flex flex-col justify-center items-center p-3 rounded w-full">
-      {carData.vehicle.averageCost.gallonSize === undefined ? (
+      {carData?.vehicle?.averageCost?.gallonSize === undefined ? (
         <div className="flex justify-center items-center">
-          <h1>NO DATA FOUND SORRY </h1>
+          <h1>Something Occured Try Again Later </h1>
         </div>
       ) : (
         <>

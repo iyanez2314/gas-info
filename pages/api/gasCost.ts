@@ -21,9 +21,9 @@ export default async function handler(
 ) {
   if (req.method === "POST") {
     try {
-      const { carMake, carModel, year } = req.body;
+      const { carMake, carModel, year, state } = req.body;
       const cylinders = await getCylinders(carMake, carModel);
-      const averageCost = await calculateGasAverage(cylinders);
+      const averageCost = await calculateGasAverage(cylinders, state);
       const vehicleImage = await getVehicleImage(carMake, carModel, year);
       const vehicle = {
         carMake,
@@ -41,13 +41,15 @@ export default async function handler(
   }
 }
 
-async function calculateGasAverage(cylinders: number) {
+async function calculateGasAverage(cylinders: number, state: String) {
   const gasPrices = await getGasPrice();
-  const avgRegular = gasPrices.current_avg_regular;
-  const avgMid = gasPrices.current_avg_mid;
-  const avgPremium = gasPrices.current_avg_premium;
+  const stateGasPrice = gasPrices.result.find(
+    (result: any) => result.name === state
+  );
+  const avgRegular = stateGasPrice.gasoline;
+  const avgMid = gasPrices.midGrade;
+  const avgPremium = gasPrices.premium;
   const gallonSize = reuturnGallonSize(cylinders);
-
   const avgRegularParsed = removeDollarSign(avgRegular);
   const avgMidParsed = removeDollarSign(avgMid);
   const avgPremiumParsed = removeDollarSign(avgPremium);
@@ -107,6 +109,7 @@ async function getCylinders(carMake: string, carModel: string) {
   try {
     const response = await fetch(url, options);
     const data = await response.json();
+    console.log("Cylinder data =>", data);
     if (data.length !== 0) {
       return data[0].cylinders;
     }
@@ -119,7 +122,7 @@ async function getCylinders(carMake: string, carModel: string) {
 }
 
 async function getGasPrice() {
-  const url = "https://us-gas-prices.p.rapidapi.com/us";
+  const url = "https://gas-price.p.rapidapi.com/allUsaPrice";
   const options = {
     method: "GET",
     headers: {
@@ -130,6 +133,7 @@ async function getGasPrice() {
   try {
     const response = await fetch(url, options);
     const data = await response.json();
+    console.log("here data =>", data);
     return data;
   } catch (error: any) {
     console.log(error);

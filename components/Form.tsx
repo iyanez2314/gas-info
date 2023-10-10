@@ -17,6 +17,7 @@ export default function Form({
     carMake: "",
     carModel: "",
     year: "",
+    state: "",
   });
 
   const updateFormData = (name: string, value: string) => {
@@ -24,7 +25,10 @@ export default function Form({
   };
 
   const allFieldsFilled =
-    formData.carMake !== "" && formData.carModel !== "" && formData.year !== "";
+    formData.carMake !== "" &&
+    formData.carModel !== "" &&
+    formData.year !== "" &&
+    formData.state !== "";
 
   return (
     <div className="text-white text-2xl font-light flex flex-col gap-4 p-6 md:w-full lg:w-full xl:w-full">
@@ -37,23 +41,23 @@ export default function Form({
         </p>
       </div>
       <div className="flex flex-col gap-5 w-full ">
-        <div className="flex flex-col">
-          <label className="font-medium text-sm">Car Make</label>
-          <input
-            onChange={(e) => {
-              handleInputChange(e);
-              updateFormData(e.target.name, e.target.value);
-            }}
-            className="border-2 text-black border-gray-300 rounded-md p-1 px-3"
-            type="text"
-            placeholder="Enter your vehicle make"
-            name="carMake"
-            required={true}
-            minLength={2}
-            maxLength={20}
-          />
-        </div>
         <form className="space-y-4" onSubmit={handleSubmit}>
+          <div className="flex flex-col">
+            <label className="font-medium text-sm">Car Make</label>
+            <input
+              onChange={(e) => {
+                handleInputChange(e);
+                updateFormData(e.target.name, e.target.value);
+              }}
+              className="border-2 text-black border-gray-300 rounded-md p-1 px-3"
+              type="text"
+              placeholder="Enter your vehicle make"
+              name="carMake"
+              required={true}
+              minLength={2}
+              maxLength={20}
+            />
+          </div>
           <div className="flex flex-col">
             <label className="font-medium text-sm">Car Model</label>
             <input
@@ -81,6 +85,22 @@ export default function Form({
               type="text"
               placeholder="Enter your vehicle year"
               name="year"
+              required={true}
+              minLength={4}
+              maxLength={20}
+            />
+          </div>
+          <div className="flex flex-col">
+            <label className="font-medium text-sm">State</label>
+            <input
+              onChange={(e) => {
+                handleInputChange(e);
+                updateFormData(e.target.name, e.target.value);
+              }}
+              className="border-2 text-black border-gray-300 rounded-md p-1 px-3"
+              type="text"
+              placeholder="Enter your state"
+              name="state"
               required={true}
               minLength={4}
               maxLength={20}

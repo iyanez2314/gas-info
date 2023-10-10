@@ -7,6 +7,7 @@ export interface State {
   carMake: string;
   carModel: string;
   year: string;
+  state: string;
 }
 
 export interface GasCost {
@@ -29,6 +30,7 @@ export default function Home() {
     carMake: "",
     carModel: "",
     year: "",
+    state: "",
   });
 
   const [apiData, setApiData] = useState<CardProps>({
